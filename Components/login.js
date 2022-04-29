@@ -14,11 +14,11 @@ export default class App extends React.Component {
     }
 
     handleInputName(e){
-        this.setState({name:e.value},()=>this.forceUpdate())
+        this.setState({name:e.target.value},()=>this.forceUpdate())
     }
 
     handleInputPassword(e){
-        this.setState({password:e.value},()=>this.forceUpdate())
+        this.setState({password:e.target.value},()=>this.forceUpdate())
     }
 
     render(){

@@ -1,4 +1,9 @@
-import firebase from "firebase/app";
+// import { initializeApp } from 'firebase/app';
+// import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
 import 'firebase/firestore'
 // Your web app's Firebase configuration
@@ -10,12 +15,12 @@ const firebaseConfig = {
   messagingSenderId: "809088520820",
   appId: "1:809088520820:web:453b864429cba1bb13f721"
 };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
-const db  = firebase.firestore();
+const db = firebase.firestore();
 
-  export default {
-      firebase,
-      db
-  };
+export default {
+  firebase,
+  db
+};
