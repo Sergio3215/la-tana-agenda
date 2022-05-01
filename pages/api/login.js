@@ -1,30 +1,21 @@
-import firebase from '../../database/firebase';
+import nextConnect from 'next-connect';
+import middleware from '../../database/db';
 
-//http://localhost:3000/api/login?user=joi&password=%271%27
+const handler = nextConnect();
 
-export default function handlerGet(req, res) {
-    const { user, password } = req.query;
+//http://localhost:3000/api/login?user=joi&password=1
 
-    let data = [];
-    firebase.db.collection("User").onSnapshot(query => {
-        query.docs.forEach(d => {
-            data.push({
-                id: d.id,
-                users: d.data().user,
-                password: d.data().password,
-                admin:d.data().admin
-            })
-        })
-        console.log(data)
-    })
-
-    const {users,id,passwords,admin} = data;
-    // console.log(user == data.user)
-    if(user == users && password == passwords) {
-        res.status(200).json({ status: true, id: data.id, admin:admin });
+handler.use(middleware);
+handler.get(async (req, res) => {
+    const { user, password} = req.query;
+    console.log(req.query)
+    let doc = await req.db.collection('User').findOne()
+    console.log(doc);
+    if(doc.user == user && doc.password == password){
+        res.status(200).json({status:"sucess", id:doc._id, user:doc.user, name:doc.name,lastname:doc.lastname, admin:doc.admin});
     }
     else{
-        res.status(200).json({ status: false});
+        res.status(200).json({status:"failed"});
     }
-
-}
+});
+export default handler;
