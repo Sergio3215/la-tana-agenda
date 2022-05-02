@@ -3,36 +3,49 @@ import React from 'react';
 export default class App extends React.Component {
     constructor() {
         super();
-        this.state={
-            name:"",
-            password:""
+        this.state = {
+            name: "",
+            password: "",
+            error: ""
         }
     }
 
-    handleSumit(e){
+    async handleSumit(e) {
         e.preventDefault();
+        if (this.state.name != "" && this.state.password != "") {
+            let strFetch = await fetch(`/api/login?user=${this.state.name}&password=${this.state.password}`);
+            let res = await strFetch.json();
+            if (res.status == "failed") {
+                this.setState({ error: res.errorMessage }, () => this.forceUpdate())
+            }
+            else {
+                this.setState({ error: "" }, () => this.forceUpdate());
+                this.props.getCookie(res);
+            }
+        }
     }
 
-    handleInputName(e){
-        this.setState({name:e.target.value},()=>this.forceUpdate())
+    handleInputName(e) {
+        this.setState({ name: e.target.value }, () => this.forceUpdate())
     }
 
-    handleInputPassword(e){
-        this.setState({password:e.target.value},()=>this.forceUpdate())
+    handleInputPassword(e) {
+        this.setState({ password: e.target.value }, () => this.forceUpdate())
     }
 
-    render(){
+    render() {
         return (
             <form onSubmit={this.handleSumit.bind(this)}>
                 <div>
-                <label>Cuenta de usuario</label>
-                <input type="text" onChange={this.handleInputName.bind(this)}/>
+                    <label>Cuenta de usuario</label>
+                    <input type="text" onChange={this.handleInputName.bind(this)} />
                 </div>
                 <div>
-                <label>Contraseña</label>
-                <input type="text" onChange={this.handleInputPassword.bind(this)}/>
+                    <label>Contraseña</label>
+                    <input type="password" onChange={this.handleInputPassword.bind(this)} />
                 </div>
-                <input type="submit"/>
+                <div><label>{this.state.error}</label></div>
+                <input type="submit" />
             </form>
         )
     }

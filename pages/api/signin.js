@@ -35,7 +35,8 @@ handler.get(async (req, res) => {
             email : email, 
             name:name, 
             lastname:lastname,
-            admin : false
+            admin : false,
+            mod : false
         }
     );
     console.log(doc);

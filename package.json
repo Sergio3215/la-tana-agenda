@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/Sergio3215/la-tana-agenda#readme",
   "dependencies": {
+    "cookies-next": "^2.0.4",
     "dotenv": "^16.0.0",
     "firebase": "^9.7.0",
     "mongodb": "^4.5.0",
