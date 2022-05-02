@@ -39,7 +39,7 @@ export default class App extends React.Component {
     render(){
         return (
             <div>
-                <div><Header getStorage={this.getStorage}/></div>
+                <div><Header getStorage={this.getStorage} user={this.state.user}/></div>
                 <div><Body getStorage={this.getStorage} user={this.state.user}
                 getUserData={this.getUserData.bind(this)} data={this.state.data.data}/></div>
             </div>

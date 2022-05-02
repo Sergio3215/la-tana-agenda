@@ -16,7 +16,11 @@ export default class App extends React.Component {
         return (
             <div>
                 <h1>Esto es el header</h1>
-                <button onClick={this.Logout.bind(this)}>desloguearse</button>
+                {
+                    (this.props.user)?
+                    <button onClick={this.Logout.bind(this)}>desloguearse</button>
+                    : <div></div>
+                }
             </div>
         )
     }
