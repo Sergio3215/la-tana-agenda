@@ -6,7 +6,8 @@ export default class App extends React.Component {
         this.state = {
             arrDay: [],
             arrHour: [],
-            onlyHour: []
+            onlyHour: [],
+            arrUser:[]
         }
     }
 
@@ -53,16 +54,31 @@ export default class App extends React.Component {
             onlyHour.push(h + ":30")
         });
 
-        console.log(arrHour)
+        console.log(arrHour);
 
+        let count = 0;
+        let alluser = [];
+        let arrUser = [];
+        arrHour.map(h => {
+            alluser.push({ user: h.user, allow: h.allow });
+            count++;
+            if (count == 7) {
+                count = 0;
+                arrUser.push(alluser);
+                alluser = [];
+            }
+        })
+        console.log(arrUser)
         this.setState({
             arrDay: arrDays,
             arrHour: arrHour,
-            onlyHour: onlyHour
+            onlyHour: onlyHour,
+            arrUser:arrUser
         }, () => this.forceUpdate())
     }
 
     render() {
+        let count =0;
         return (
             <div>
                 <h1>Bienvenido {this.props.name} {this.props.lastname}</h1>
@@ -73,29 +89,35 @@ export default class App extends React.Component {
                         <h1>No soy pro</h1>
                 }
                 <table border="1">
-                    {
-                        this.state.arrDay.map((d, index) => <td>
-                            <td>{d}</td>
-                            {
-                                this.state.onlyHour.map(h => {
-                                    return (
-                                        <tr>
+                    <td>
+                        {
+                            this.state.arrDay.map((d, index) => <td>
+                                <td>{d}</td>
+                                {
+                                    this.state.onlyHour.map((h,indexHour) => {
+                                        return (
+                                            <tr>
                                                 {
                                                     (index == 0) ?
                                                         <td>{h}</td> : null
                                                 }
                                                 {
-                                                    this.state.arrHour.map((h, indexHour) => {
-                                                        return ((index === indexHour & index != 0) ? <td>{h.user}</td> : null)
+                                                    this.state.arrUser[indexHour].map((u,indexUser) =>{
+                                                        console.log(indexUser)
+                                                       return ( 
+                                                        (index != 0 && indexUser==0) ?
+                                                        (u.allow)?<td>{u.user}</td>:<td>X</td> : null
+                                                       )
                                                     })
                                                 }
 
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </td>)
-                    }
+                                            </tr>
+                                        )
+                                    })
+                                }
+                            </td>)
+                        }
+                    </td>
                 </table>
             </div>
         )
