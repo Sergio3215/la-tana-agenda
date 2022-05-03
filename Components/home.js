@@ -7,7 +7,7 @@ export default class App extends React.Component {
             arrDay: [],
             arrHour: [],
             onlyHour: [],
-            arrUser:[]
+            arrUser: []
         }
     }
 
@@ -24,10 +24,10 @@ export default class App extends React.Component {
             intervals.push(ii);
         }
 
-       let strfetch = await fetch('/api/calendar')
-       let result = await strfetch.json();
+        let strfetch = await fetch('/api/calendar')
+        let result = await strfetch.json();
         // console.log(result.doc)
-        if(result.doc.length <= 0) {
+        if (result.doc.length <= 0) {
             intervals.map(inter => {
                 arrDays.map((ad, index) => {
                     if (index != 0) {
@@ -54,12 +54,12 @@ export default class App extends React.Component {
             })
 
             arrHour.map(async (h) => {
-                strfetch = await fetch(`/api/calendar?day=${h.day}&index=${h.index}&hour=${h.hour}&user=${h.user}&allow=${h.allow}`,{
-                    method:'POST'
+                strfetch = await fetch(`/api/calendar?day=${h.day}&index=${h.index}&hour=${h.hour}&user=${h.user}&allow=${h.allow}`, {
+                    method: 'POST'
                 });
             })
         }
-        else{
+        else {
             arrHour = result.doc;
         }
 
@@ -70,13 +70,13 @@ export default class App extends React.Component {
             onlyHour.push(h + ":30")
         });
 
-        // console.log(arrHour);
+        console.log(arrHour);
 
         let count = 0;
         let alluser = [];
         let arrUser = [];
         arrHour.map(h => {
-            alluser.push({ id:h._id,user: h.user, allow: h.allow });
+            alluser.push({ id: h._id, user: h.user, allow: h.allow, hour: h.hour });
             count++;
             if (count == 7) {
                 count = 0;
@@ -84,17 +84,17 @@ export default class App extends React.Component {
                 alluser = [];
             }
         })
-        console.log(arrUser)
+        // console.log(arrUser)
         this.setState({
             arrDay: arrDays,
             arrHour: arrHour,
             onlyHour: onlyHour,
-            arrUser:arrUser
+            arrUser: arrUser
         }, () => this.forceUpdate())
     }
 
     render() {
-        let count =0;
+        let count = 0;
         return (
             <div>
                 <h1>Bienvenido {this.props.name} {this.props.lastname}</h1>
@@ -105,6 +105,8 @@ export default class App extends React.Component {
                         <h1>No soy pro</h1>
                 }
                 <table border="1">
+                    {/*
+                    <tr>
                     <td>
                         {
                             this.state.arrDay.map((d, index) => <td>
@@ -138,6 +140,29 @@ export default class App extends React.Component {
                             </td>)
                         }
                     </td>
+                    </tr>*/
+                    }
+                    <thead>
+                        <tr>
+                            {
+                                this.state.arrDay.map(d => <td>{d}</td>)
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            this.state.onlyHour.map((h,indexHour) => {
+                                return(
+                                    <tr>
+                                        <td>{h}</td>
+                                        {
+                                            
+                                        }
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
                 </table>
             </div>
         )
