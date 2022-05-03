@@ -15,7 +15,7 @@ export default class App extends React.Component {
         this.arrayCalendar(9, 23);
     }
 
-    arrayCalendar(min, max) {
+    async arrayCalendar(min, max) {
         let arrDays = ["", "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
         let arrHour = [];
 
@@ -23,6 +23,11 @@ export default class App extends React.Component {
         for (let ii = min; ii <= max; ii++) {
             intervals.push(ii);
         }
+
+       let strfetch = await fetch('/api/calendar')
+       let result = await strfetch.json();
+
+       
         intervals.map(inter => {
             arrDays.map((ad, index) => {
                 if (index != 0) {

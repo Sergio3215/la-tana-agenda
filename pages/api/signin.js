@@ -1,22 +1,3 @@
-import firebase from '../../database/db';
-
-
-
-// export default async function handlerCreate(req, res) {
-//     const { user, password, email, name, lastname} = req.query;
-
-//   const newUser = await firebase.db.collection("User").add({
-//         user:user,
-//         password:password,
-//         email: email,
-//         admin: false,
-//         name: name,
-//         lastname:lastname
-//     })
-    
-//     res.status(200).json({ status: true });
-
-// }
 import nextConnect from 'next-connect';
 import middleware from '../../database/db';
 

@@ -1,8 +1,6 @@
 {
   "/_app": "pages/_app.js",
-  "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/": "pages/index.js",
-  "/api/userid": "pages/api/userid.js",
-  "/api/cookie": "pages/api/cookie.js"
+  "/_document": "pages/_document.js",
+  "/api/calendar": "pages/api/calendar.js"
 }
