@@ -26,32 +26,43 @@ export default class App extends React.Component {
 
        let strfetch = await fetch('/api/calendar')
        let result = await strfetch.json();
+        // console.log(result.doc)
+        if(result.doc.length <= 0) {
+            intervals.map(inter => {
+                arrDays.map((ad, index) => {
+                    if (index != 0) {
+                        arrHour.push({
+                            day: ad,
+                            index: index,
+                            hour: inter + ":00",
+                            user: "",
+                            allow: false
+                        })
+                    }
+                })
+                arrHour.map(h => {
+                    if (h.hour == inter + ":00") {
+                        arrHour.push({
+                            day: h.day,
+                            index: h.index,
+                            hour: inter + ":30",
+                            user: "",
+                            allow: false
+                        })
+                    }
+                })
+            })
 
-       
-        intervals.map(inter => {
-            arrDays.map((ad, index) => {
-                if (index != 0) {
-                    arrHour.push({
-                        day: ad,
-                        index: index,
-                        hour: inter + ":00",
-                        user: "Jack",
-                        allow: true
-                    })
-                }
+            arrHour.map(async (h) => {
+                strfetch = await fetch(`/api/calendar?day=${h.day}&index=${h.index}&hour=${h.hour}&user=${h.user}&allow=${h.allow}`,{
+                    method:'POST'
+                });
             })
-            arrHour.map(h => {
-                if (h.hour == inter + ":00") {
-                    arrHour.push({
-                        day: h.day,
-                        index: h.index,
-                        hour: inter + ":30",
-                        user: "Aloy",
-                        allow: false
-                    })
-                }
-            })
-        })
+        }
+        else{
+            arrHour = result.doc;
+        }
+
 
         let onlyHour = [];
         intervals.map(h => {
@@ -59,13 +70,13 @@ export default class App extends React.Component {
             onlyHour.push(h + ":30")
         });
 
-        console.log(arrHour);
+        // console.log(arrHour);
 
         let count = 0;
         let alluser = [];
         let arrUser = [];
         arrHour.map(h => {
-            alluser.push({ user: h.user, allow: h.allow });
+            alluser.push({ id:h._id,user: h.user, allow: h.allow });
             count++;
             if (count == 7) {
                 count = 0;
@@ -108,7 +119,7 @@ export default class App extends React.Component {
                                                 }
                                                 {
                                                     this.state.arrUser[indexHour].map((u,indexUser) =>{
-                                                        console.log(indexUser)
+                                                        // console.log(indexUser)
                                                        return ( 
                                                         (index != 0 && indexUser==0) ?
                                                         (u.allow)?
