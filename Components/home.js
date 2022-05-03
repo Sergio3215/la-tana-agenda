@@ -106,7 +106,11 @@ export default class App extends React.Component {
                                                         console.log(indexUser)
                                                        return ( 
                                                         (index != 0 && indexUser==0) ?
-                                                        (u.allow)?<td>{u.user}</td>:<td>X</td> : null
+                                                        (u.allow)?
+                                                        (u.user != "")?
+                                                        <td>{u.user}</td> : <td><button>Asignar Personal</button></td>
+                                                            :<td>X</td> 
+                                                        : null
                                                        )
                                                     })
                                                 }
