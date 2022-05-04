@@ -1,7 +1,7 @@
 import nextConnect from 'next-connect';
 import { getCookies, getCookie, setCookies, removeCookies } from 'cookies-next';
 import middleware from '../../database/db';
-var ObjectId = require('mongodb').ObjectID;
+let ObjectId = require('mongodb').ObjectID;
 
 const handler = nextConnect();
 handler.use(middleware);

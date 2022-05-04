@@ -26,7 +26,7 @@ export default class App extends React.Component {
 
         let strfetch = await fetch('/api/calendar')
         let result = await strfetch.json();
-        // console.log(result.doc)
+        console.log(result.doc)
         if (result.doc.length <= 0) {
             intervals.map(inter => {
                 arrDays.map((ad, index) => {
@@ -60,7 +60,23 @@ export default class App extends React.Component {
             })
         }
         else {
-            arrHour = result.doc;
+            // arrHour = result.doc;
+            let onlyHour = [];
+            intervals.map(h => {
+                onlyHour.push(h + ":00")
+                onlyHour.push(h + ":30")
+            });
+            result.doc.map(res => {
+                onlyHour.map(only => {
+                    arrDays.map(d => {
+                        debugger
+                        if (res.hour == only && res.day == d) {
+                            arrHour.push(res);
+                        }
+                    })
+                })
+            }
+            )
         }
 
 
@@ -70,7 +86,7 @@ export default class App extends React.Component {
             onlyHour.push(h + ":30")
         });
 
-        console.log(arrHour);
+        // console.log(arrHour);
 
         let count = 0;
         let alluser = [];
@@ -151,12 +167,22 @@ export default class App extends React.Component {
                     </thead>
                     <tbody>
                         {
-                            this.state.onlyHour.map((h,indexHour) => {
-                                return(
+                            this.state.onlyHour.map((h, indexHour) => {
+                                return (
                                     <tr>
                                         <td>{h}</td>
                                         {
-                                            
+                                            this.state.arrHour.map(d => {
+                                                return (
+                                                    (d.hour == h) ?
+                                                        (!d.allow) ?
+                                                            <td value={d._id}>X</td>
+                                                            : (d.user != "") ?
+                                                                <td value={d._id}>{d.user}</td> :
+                                                                <td value={d._id}><button value={d._id} key={d.hour + "-" + d.day}>Modificar {d.hour + " - " + d.day}</button></td>
+                                                        : null
+                                                )
+                                            })
                                         }
                                     </tr>
                                 )

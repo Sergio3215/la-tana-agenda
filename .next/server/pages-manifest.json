@@ -2,5 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/": "pages/index.js",
+  "/api/userid": "pages/api/userid.js",
+  "/api/cookie": "pages/api/cookie.js",
   "/api/calendar": "pages/api/calendar.js"
 }
