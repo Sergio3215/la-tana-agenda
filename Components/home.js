@@ -1,13 +1,17 @@
 import React from 'react';
+import ModalCalendar from './modalCalendar'
 
 export default class App extends React.Component {
     constructor() {
         super();
+        this.createUser = this.createUser.bind(this)
         this.state = {
             arrDay: [],
             arrHour: [],
             onlyHour: [],
-            arrUser: []
+            components: [],
+            id: '',
+            displayModal: 'none'
         }
     }
 
@@ -69,7 +73,7 @@ export default class App extends React.Component {
             result.doc.map(res => {
                 onlyHour.map(only => {
                     arrDays.map(d => {
-                        debugger
+                        // debugger
                         if (res.hour == only && res.day == d) {
                             arrHour.push(res);
                         }
@@ -88,76 +92,69 @@ export default class App extends React.Component {
 
         // console.log(arrHour);
 
-        let count = 0;
-        let alluser = [];
-        let arrUser = [];
-        arrHour.map(h => {
-            alluser.push({ id: h._id, user: h.user, allow: h.allow, hour: h.hour });
-            count++;
-            if (count == 7) {
-                count = 0;
-                arrUser.push(alluser);
-                alluser = [];
-            }
-        })
-        // console.log(arrUser)
+        let components = this.createUser(arrHour, onlyHour)
+
         this.setState({
             arrDay: arrDays,
             arrHour: arrHour,
             onlyHour: onlyHour,
-            arrUser: arrUser
+            components: components
         }, () => this.forceUpdate())
+    }
+
+    handleModal(e) {
+        this.setState({
+            id: e.target.value,
+            displayModal: 'block'
+        }, () => this.forceUpdate())
+    }
+
+    createUser(arrHour, onlyHour) {
+        let component = []
+        onlyHour.map((h, indexHour) => {
+
+            console.log("1")
+            component.push(<tr>
+                <td>{h}</td>
+                {
+                    arrHour.map(d => {
+                        let id = '';
+                        return ((d.hour == h) ?
+                            <td>
+                                {
+                                    (!d.allow) ?
+                                        "X"
+                                        : (d.user != "") ?
+                                            d.user : "usuario no asignado"
+                                }
+                                {
+                                    (this.props.admin) ?
+
+                                            <button value={d._id} key={d.hour + "-" + d.day} onClick={this.handleModal.bind(this)}>Modificar {d.hour + " - " + d.day}</button> : null
+                                }
+                            </td>
+                            :
+                            null)
+                    })
+                }
+            </tr>)
+        })
+        return component;
     }
 
     render() {
         let count = 0;
         return (
             <div>
-                <h1>Bienvenido {this.props.name} {this.props.lastname}</h1>
+                {/* <h1>Bienvenido {this.props.name} {this.props.lastname}</h1> */}
+                <div style={{ display: this.state.displayModal }}><ModalCalendar id={this.state.id} /></div>
                 {
-                    (this.props.admin) ?
-                        <h1>Soy pro</h1>
-                        :
-                        <h1>No soy pro</h1>
+                    // (this.props.admin) ?
+                    //     <h1>Soy pro</h1>
+                    //     :
+                    //     <h1>No soy pro</h1>
                 }
                 <table border="1">
-                    {/*
-                    <tr>
-                    <td>
-                        {
-                            this.state.arrDay.map((d, index) => <td>
-                                <td>{d}</td>
-                                {
-                                    this.state.onlyHour.map((h,indexHour) => {
-                                        return (
-                                            <tr>
-                                                {
-                                                    (index == 0) ?
-                                                        <td>{h}</td> : null
-                                                }
-                                                {
-                                                    this.state.arrUser[indexHour].map((u,indexUser) =>{
-                                                        // console.log(indexUser)
-                                                       return ( 
-                                                        (index != 0 && indexUser==0) ?
-                                                        (u.allow)?
-                                                        (u.user != "")?
-                                                        <td>{u.user}</td> : <td><button>Asignar Personal</button></td>
-                                                            :<td>X</td> 
-                                                        : null
-                                                       )
-                                                    })
-                                                }
-
-                                            </tr>
-                                        )
-                                    })
-                                }
-                            </td>)
-                        }
-                    </td>
-                    </tr>*/
-                    }
                     <thead>
                         <tr>
                             {
@@ -167,26 +164,7 @@ export default class App extends React.Component {
                     </thead>
                     <tbody>
                         {
-                            this.state.onlyHour.map((h, indexHour) => {
-                                return (
-                                    <tr>
-                                        <td>{h}</td>
-                                        {
-                                            this.state.arrHour.map(d => {
-                                                return (
-                                                    (d.hour == h) ?
-                                                        (!d.allow) ?
-                                                            <td value={d._id}>X</td>
-                                                            : (d.user != "") ?
-                                                                <td value={d._id}>{d.user}</td> :
-                                                                <td value={d._id}><button value={d._id} key={d.hour + "-" + d.day}>Modificar {d.hour + " - " + d.day}</button></td>
-                                                        : null
-                                                )
-                                            })
-                                        }
-                                    </tr>
-                                )
-                            })
+                            this.state.components
                         }
                     </tbody>
                 </table>

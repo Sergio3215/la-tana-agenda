@@ -8,7 +8,7 @@ const handler = nextConnect();
 handler.use(middleware);
 
 handler.get(async (req, res) => {
-    let doc = await req.db.collection('Calendar').find().toArray();
+    let doc = await req.db.collection('Calendar').find().sort({index:1,hour:1}).toArray();
     console.log(doc);
     res.status(200).json({doc:doc });
 });
