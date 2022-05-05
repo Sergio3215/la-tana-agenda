@@ -8,7 +8,7 @@ export default class App extends React.Component {
         this.state = {
             componentUsers: [],
             checked: false,
-            itemSelectedId:''
+            itemSelectedId: ''
         }
     }
 
@@ -27,27 +27,32 @@ export default class App extends React.Component {
                 });
 
                 this.setState({
-                    componentUsers: component
+                    componentUsers: component,
+                    itemSelectedId:'',
+                    checked: false
                 }, () => this.forceUpdate())
             })
 
     }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
+        let strfetch = await fetch(`http://localhost:3000/api/calendarid?userid=${this.state.itemSelectedId}&allow=${!this.state.checked}&id=${this.props.id}`,{method: 'PUT'});
+        let res = await strfetch.json();
+        
         this.props.arrayCalendar(9, 23);
     }
 
-    handleCheckbox(e){
+    handleCheckbox(e) {
         this.setState({
             checked: e.target.checked
-        },()=>this.forceUpdate());
+        }, () => this.forceUpdate());
     }
 
-    handleSelect(e){
+    handleSelect(e) {
         this.setState({
             itemSelectedId: e.target.value
-        },()=>this.forceUpdate());
+        }, () => this.forceUpdate());
     }
 
     render() {
@@ -59,18 +64,33 @@ export default class App extends React.Component {
                     </div>
                     <div>
                         Asignar usuario
-                        <select key={this.props.id} onChange={this.handleSelect.bind(this)}>
-                            {
-                                this.state.componentUsers
-                            }
-                        </select>
+                        {
+                            (!this.state.checked) ?
+                                <select key={this.props.id} onChange={this.handleSelect.bind(this)}>
+                                    <option value=''>Selecciona un usuario</option>
+                                    {
+                                        this.state.componentUsers
+                                    }
+                                </select> :
+
+                                <select key={this.props.id} disabled>
+                                    <option value=''>Selecciona un usuario</option>
+                                    {
+                                        this.state.componentUsers
+                                    }
+                                </select>
+                        }
                         <div>
                             <label>Bloquear dia</label>
-                            <input type="checkbox" onChange={this.handleCheckbox.bind(this)}/>
+                            <input type="checkbox" onChange={this.handleCheckbox.bind(this)} />
                         </div>
                     </div>
                     <div>
-                        <input type="submit" value='Guardar' />
+                        {
+                            (this.state.itemSelectedId == '' && !this.state.checked) ?
+                                <input type="submit" value='Guardar' disabled /> :
+                                <input type="submit" value='Guardar' />
+                        }
                     </div>
                 </form>
             </div>

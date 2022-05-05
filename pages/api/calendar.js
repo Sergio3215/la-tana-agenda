@@ -9,13 +9,13 @@ handler.use(middleware);
 
 handler.get(async (req, res) => {
     let doc = await req.db.collection('Calendar').find().sort({index:1,hour:1}).toArray();
-    console.log(doc);
+    // console.log(doc);
     res.status(200).json({doc:doc });
 });
 
 handler.post(async (req, res) => {
     const { day, index, hour, user, allow } = req.query;
-    console.log(req.query)
+    // console.log(req.query)
     let doc = await req.db.collection('Calendar').insertOne(
         {
             day: day,
@@ -25,7 +25,7 @@ handler.post(async (req, res) => {
             allow: allow
         }
     );
-    console.log(doc);
+    // console.log(doc);
     res.status(200).json({ status: "sucess" });
 });
 export default handler;

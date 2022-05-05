@@ -130,7 +130,7 @@ export default class App extends React.Component {
                         return ((d.hour == h) ?
                             <td>
                                 {
-                                    (!d.allow) ?
+                                    (d.allow == false) ?
                                         "X"
                                         : (d.user != "") ?
                                             d.user : "usuario no asignado"
