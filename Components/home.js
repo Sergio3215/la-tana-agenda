@@ -4,7 +4,8 @@ import ModalCalendar from './modalCalendar'
 export default class App extends React.Component {
     constructor() {
         super();
-        this.createUser = this.createUser.bind(this)
+        this.createUser = this.createUser.bind(this);
+        this.closeModal = this.closeModal.bind(this);
         this.state = {
             arrDay: [],
             arrHour: [],
@@ -109,6 +110,13 @@ export default class App extends React.Component {
         }, () => this.forceUpdate())
     }
 
+    closeModal() {
+        this.setState({
+            id: '',
+            displayModal: 'none'
+        }, () => this.forceUpdate())
+    }
+
     createUser(arrHour, onlyHour) {
         let component = []
         onlyHour.map((h, indexHour) => {
@@ -147,7 +155,7 @@ export default class App extends React.Component {
         return (
             <div>
                 {/* <h1>Bienvenido {this.props.name} {this.props.lastname}</h1> */}
-                <div style={{ display: this.state.displayModal }}><ModalCalendar id={this.state.id} /></div>
+                <div style={{ display: this.state.displayModal }}><ModalCalendar id={this.state.id} closeModal={this.closeModal} arrayCalendar={this.arrayCalendar.bind(this)}/></div>
                 {
                     // (this.props.admin) ?
                     //     <h1>Soy pro</h1>

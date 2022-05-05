@@ -7,6 +7,8 @@ export default class App extends React.Component {
         this.allUser = this.allUser.bind(this);
         this.state = {
             componentUsers: [],
+            checked: false,
+            itemSelectedId:''
         }
     }
 
@@ -33,6 +35,19 @@ export default class App extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        this.props.arrayCalendar(9, 23);
+    }
+
+    handleCheckbox(e){
+        this.setState({
+            checked: e.target.checked
+        },()=>this.forceUpdate());
+    }
+
+    handleSelect(e){
+        this.setState({
+            itemSelectedId: e.target.value
+        },()=>this.forceUpdate());
     }
 
     render() {
@@ -40,15 +55,19 @@ export default class App extends React.Component {
             <div>
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <div>
-                        Asignar usuario o bloquear día <button>X</button>
+                        Asignar usuario o bloquear día <button onClick={this.props.closeModal}>X</button>
                     </div>
                     <div>
-                        body {this.props.id}
-                        <select>
+                        Asignar usuario
+                        <select key={this.props.id} onChange={this.handleSelect.bind(this)}>
                             {
                                 this.state.componentUsers
                             }
                         </select>
+                        <div>
+                            <label>Bloquear dia</label>
+                            <input type="checkbox" onChange={this.handleCheckbox.bind(this)}/>
+                        </div>
                     </div>
                     <div>
                         <input type="submit" value='Guardar' />
