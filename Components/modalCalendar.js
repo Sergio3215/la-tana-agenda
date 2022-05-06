@@ -12,23 +12,34 @@ export default class App extends React.Component {
         }
     }
 
+    componentDidUpdate(PrevProps) {
+        if (PrevProps.id != this.props.id) {
+            this.allUser();
+        }
+    }
+
     componentDidMount() {
         this.allUser();
     }
 
     allUser() {
-        fetch('/api/allusers').then(res => res.json())
+        fetch('/api/allusers?id=' + this.props.id).then(res => res.json())
             .then(doc => {
                 console.log(doc)
                 let component = [];
                 doc.data.forEach((r) => {
                     console.log(r)
-                    component.push(<option value={r._id}>{r.name + " " + r.lastname}</option>);
+                    if (r.name+" "+r.lastname == doc.lastuser) {
+                        component.push(<option value={r._id} selected='selected'>{r.name + " " + r.lastname}</option>);
+                    }
+                    else {
+                        component.push(<option value={r._id}>{r.name + " " + r.lastname}</option>);
+                    }
                 });
 
                 this.setState({
                     componentUsers: component,
-                    itemSelectedId:'',
+                    itemSelectedId: '',
                     checked: false
                 }, () => this.forceUpdate())
             })
@@ -37,10 +48,11 @@ export default class App extends React.Component {
 
     async handleSubmit(e) {
         e.preventDefault();
-        let strfetch = await fetch(`http://localhost:3000/api/calendarid?userid=${this.state.itemSelectedId}&allow=${!this.state.checked}&id=${this.props.id}`,{method: 'PUT'});
+        let strfetch = await fetch(`http://localhost:3000/api/calendarid?userid=${this.state.itemSelectedId}&allow=${!this.state.checked}&id=${this.props.id}`, { method: 'PUT' });
         let res = await strfetch.json();
-        
+
         this.props.arrayCalendar(9, 23);
+        this.props.closeModal();
     }
 
     handleCheckbox(e) {
@@ -58,10 +70,10 @@ export default class App extends React.Component {
     render() {
         return (
             <div>
+                <div>
+                    Asignar usuario o bloquear día <button onClick={this.props.closeModal}>X</button>
+                </div>
                 <form onSubmit={this.handleSubmit.bind(this)}>
-                    <div>
-                        Asignar usuario o bloquear día <button onClick={this.props.closeModal}>X</button>
-                    </div>
                     <div>
                         Asignar usuario
                         {

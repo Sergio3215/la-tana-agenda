@@ -10,17 +10,23 @@ handler.use(middleware);
 
 handler.put(async (req, res) => {
     const{id, allow, userid} = req.query;
-    console.log(req.query);
   
     let userName = '';
-    if(userid!=null || userid != undefined){
+    if(userid!=null || userid != undefined || userid != ''){
         let user = await req.db.collection('User').findOne(new ObjectId(userid));
         userName = user.name + " " + user.lastname;
     }
-    console.log(allow);
-    console.log(userName);
-    let doc = await req.db.collection('Calendar').updateOne({_id:new ObjectId(id)}, {$set:{user:userName, allow:allow}});
-    console.log(allow);
+    else{
+        userName = "usuario no asignado"
+    }
+
+    let allowParam = false;
+    if(allow == 'true'){
+        allowParam = true;
+    }
+
+    let doc = await req.db.collection('Calendar').updateOne({_id:new ObjectId(id)}, {$set:{user:userName, allow:allowParam}});
+
     res.status(200).json({status:"ok"});
 });
 

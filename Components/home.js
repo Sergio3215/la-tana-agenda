@@ -127,18 +127,25 @@ export default class App extends React.Component {
                 {
                     arrHour.map(d => {
                         let id = '';
+                        let userLabel = "";
+                        if (!d.allow) {
+                            userLabel = "X"
+                        }
+                        else{
+                            userLabel = d.user
+                        }
+                        if(d.hour == "9:00"){
+                            console.log(userLabel)
+                        }
                         return ((d.hour == h) ?
                             <td>
                                 {
-                                    (d.allow == false) ?
-                                        "X"
-                                        : (d.user != "") ?
-                                            d.user : "usuario no asignado"
+                                    userLabel
                                 }
                                 {
                                     (this.props.admin) ?
 
-                                            <button value={d._id} key={d.hour + "-" + d.day} onClick={this.handleModal.bind(this)}>Modificar {d.hour + " - " + d.day}</button> : null
+                                        <button value={d._id} key={d.hour + "-" + d.day} onClick={this.handleModal.bind(this)}>Modificar {d.hour + " - " + d.day}</button> : null
                                 }
                             </td>
                             :
@@ -155,7 +162,7 @@ export default class App extends React.Component {
         return (
             <div>
                 {/* <h1>Bienvenido {this.props.name} {this.props.lastname}</h1> */}
-                <div style={{ display: this.state.displayModal }}><ModalCalendar id={this.state.id} closeModal={this.closeModal} arrayCalendar={this.arrayCalendar.bind(this)}/></div>
+                <div style={{ display: this.state.displayModal }}><ModalCalendar id={this.state.id} closeModal={this.closeModal} arrayCalendar={this.arrayCalendar.bind(this)} /></div>
                 {
                     // (this.props.admin) ?
                     //     <h1>Soy pro</h1>
