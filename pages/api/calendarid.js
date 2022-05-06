@@ -9,11 +9,11 @@ const handler = nextConnect();
 handler.use(middleware);
 
 handler.put(async (req, res) => {
-    const{id, allow, userid} = req.query;
-  
+    const{id, allow} = req.query;
+    console.log(req.query.userid)
     let userName = '';
-    if(userid!=null || userid != undefined || userid != ''){
-        let user = await req.db.collection('User').findOne(new ObjectId(userid));
+    if(req.query.userid != undefined){
+        let user = await req.db.collection('User').findOne(new ObjectId(req.query.userid));
         userName = user.name + " " + user.lastname;
     }
     else{
@@ -24,8 +24,7 @@ handler.put(async (req, res) => {
     if(allow == 'true'){
         allowParam = true;
     }
-
-    let doc = await req.db.collection('Calendar').updateOne({_id:new ObjectId(id)}, {$set:{user:userName, allow:allowParam}});
+    await req.db.collection('Calendar').updateOne({_id:new ObjectId(id)}, {$set:{user:userName, allow:allowParam}});
 
     res.status(200).json({status:"ok"});
 });

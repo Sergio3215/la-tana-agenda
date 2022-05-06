@@ -9,9 +9,9 @@ handler.use(middleware);
 
 handler.get(async (req, res) => {
     const {id} = req.query;
-    console.log(id)
+    // console.log(id)
     let last = await req.db.collection('Calendar').findOne(new ObjectId(id));
     let doc = await req.db.collection('User').find().sort({name:1}).toArray();
-    res.status(200).json({ status: "sucess", data: doc, lastuser:last.user});
+    res.status(200).json({ status: "sucess", data: doc, lastuser:last.user, allow: last.allow});
 });
 export default handler;

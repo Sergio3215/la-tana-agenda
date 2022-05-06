@@ -8,7 +8,7 @@ export default class App extends React.Component {
         this.state = {
             componentUsers: [],
             checked: false,
-            itemSelectedId: ''
+            itemSelectedId: '1'
         }
     }
 
@@ -27,20 +27,22 @@ export default class App extends React.Component {
             .then(doc => {
                 console.log(doc)
                 let component = [];
+                let allow = false
                 doc.data.forEach((r) => {
                     console.log(r)
                     if (r.name+" "+r.lastname == doc.lastuser) {
-                        component.push(<option value={r._id} selected='selected'>{r.name + " " + r.lastname}</option>);
+                        component.push(<option value={r._id} select='selected'>{r.name + " " + r.lastname}</option>);
                     }
                     else {
                         component.push(<option value={r._id}>{r.name + " " + r.lastname}</option>);
                     }
+                    allow = doc.allow;
                 });
 
                 this.setState({
                     componentUsers: component,
-                    itemSelectedId: '',
-                    checked: false
+                    itemSelectedId: '1',
+                    checked: !allow
                 }, () => this.forceUpdate())
             })
 
@@ -48,7 +50,11 @@ export default class App extends React.Component {
 
     async handleSubmit(e) {
         e.preventDefault();
-        let strfetch = await fetch(`http://localhost:3000/api/calendarid?userid=${this.state.itemSelectedId}&allow=${!this.state.checked}&id=${this.props.id}`, { method: 'PUT' });
+        let userParams = ''
+        if(this.state.itemSelectedId != "1"){
+            userParams = `userid=${this.state.itemSelectedId}&`;
+        }
+        let strfetch = await fetch(`http://localhost:3000/api/calendarid?${userParams}allow=${!this.state.checked}&id=${this.props.id}`, { method: 'PUT' });
         let res = await strfetch.json();
 
         this.props.arrayCalendar(9, 23);
@@ -79,14 +85,14 @@ export default class App extends React.Component {
                         {
                             (!this.state.checked) ?
                                 <select key={this.props.id} onChange={this.handleSelect.bind(this)}>
-                                    <option value=''>Selecciona un usuario</option>
+                                    <option value='1'>Selecciona un usuario</option>
                                     {
                                         this.state.componentUsers
                                     }
                                 </select> :
 
                                 <select key={this.props.id} disabled>
-                                    <option value=''>Selecciona un usuario</option>
+                                    <option value='1'>Selecciona un usuario</option>
                                     {
                                         this.state.componentUsers
                                     }
@@ -94,12 +100,12 @@ export default class App extends React.Component {
                         }
                         <div>
                             <label>Bloquear dia</label>
-                            <input type="checkbox" onChange={this.handleCheckbox.bind(this)} />
+                            <input type="checkbox" onChange={this.handleCheckbox.bind(this)} checked={this.state.checked}/>
                         </div>
                     </div>
                     <div>
                         {
-                            (this.state.itemSelectedId == '' && !this.state.checked) ?
+                            (this.state.itemSelectedId == '1' && !this.state.checked) ?
                                 <input type="submit" value='Guardar' disabled /> :
                                 <input type="submit" value='Guardar' />
                         }
