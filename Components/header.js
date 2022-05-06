@@ -15,12 +15,14 @@ export default class App extends React.Component {
     render(){
         return (
             <div>
-                <h1>Esto es el header</h1>
+                <h1>La Tana</h1>
+                <div>
                 {
                     (this.props.user)?
-                    <button onClick={this.Logout.bind(this)}>desloguearse</button>
+                    <button className="bnt--logout bg-indigo-900" onClick={this.Logout.bind(this)}>desloguearse</button>
                     : <div></div>
                 }
+                </div>
             </div>
         )
     }

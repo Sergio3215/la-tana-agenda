@@ -15,6 +15,7 @@ const endID = "qwepo1occn1dmka1";
 
 handler.get(async (req, res) => {
     const cookies = getCookie("account",{req,res});
+    console.log(req.query)
     const data = JSON.parse(cookies)
     const id = data.id.replace(startID,"").replace(endID,"")
     let doc = await req.db.collection('User').findOne(new ObjectId(id));

@@ -1,0 +1,56 @@
+.principal--style{
+    margin:0;
+    padding: 0;
+    margin-left: 15px;
+}
+
+.table--calendar,
+.table--calendar tbody td,
+.table--calendar thead tr td {
+    border-radius: 15px
+}
+
+.table--calendar tbody td,
+.table--calendar thead tr td {
+    position: relative;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    text-align: center;
+}
+
+.table--calendar thead tr td:first-child,
+.table--calendar tbody td:first-child {
+    border-right: 0px solid black;
+    border-left: 0px solid black;
+}
+
+.table--calendar tbody td:first-child,
+.table--calendar thead tr td:first-child {
+    border-bottom: 0px solid black;
+    border-top: 0px solid black;
+}
+
+.table--calendar tbody td:first-child {
+    border-bottom: 0px solid black;
+    border-top: 1px solid black;
+}
+
+.table--calendar thead tr td:last-child,
+.table--calendar tbody td:last-child {
+    border-right: 0px solid black;
+    border-left: 0px solid black;
+}
+
+.table--calendar tbody td label {
+    padding-right: 5px;
+}
+
+.table--calendar tbody td button {
+    border: 1px solid black;
+    border-radius: 8px;
+    margin-bottom: 2px;
+    color: white;
+}

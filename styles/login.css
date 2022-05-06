@@ -1,0 +1,15 @@
+.form--login {
+    margin-top: 15px;
+}
+
+.form--login div input[type="text"], .form--login div input[type="password"],.form--login input[type="submit"]{
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+.form--login input[type="submit"]{
+    padding: 2px;
+}
+.form--login input,.form--login div input{
+    margin-top: 10px;
+}

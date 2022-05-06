@@ -12,7 +12,9 @@ export default class App extends React.Component {
             onlyHour: [],
             components: [],
             id: '',
-            displayModal: 'none'
+            displayModal: 'none',
+            X:0,
+            Y:0
         }
     }
 
@@ -31,7 +33,6 @@ export default class App extends React.Component {
 
         let strfetch = await fetch('/api/calendar')
         let result = await strfetch.json();
-        console.log(result.doc)
         if (result.doc.length <= 0) {
             intervals.map(inter => {
                 arrDays.map((ad, index) => {
@@ -74,7 +75,6 @@ export default class App extends React.Component {
             result.doc.map(res => {
                 onlyHour.map(only => {
                     arrDays.map(d => {
-                        // debugger
                         if (res.hour == only && res.day == d) {
                             arrHour.push(res);
                         }
@@ -91,7 +91,6 @@ export default class App extends React.Component {
             onlyHour.push(h + ":30")
         });
 
-        // console.log(arrHour);
 
         let components = this.createUser(arrHour, onlyHour)
 
@@ -104,6 +103,7 @@ export default class App extends React.Component {
     }
 
     handleModal(e) {
+        console.log(e)
         this.setState({
             id: e.target.value,
             displayModal: 'block'
@@ -121,7 +121,6 @@ export default class App extends React.Component {
         let component = []
         onlyHour.map((h, indexHour) => {
 
-            console.log("1")
             component.push(<tr>
                 <td>{h}</td>
                 {
@@ -134,18 +133,19 @@ export default class App extends React.Component {
                         else{
                             userLabel = d.user
                         }
-                        if(d.hour == "9:00"){
-                            console.log(userLabel)
+                        let classlast={};
+                        if(d.hour == "23:30"){
+                            classlast = {'border-bottom': '0px solid black'}
                         }
                         return ((d.hour == h) ?
-                            <td>
+                            <td style={classlast}>
                                 {
-                                    userLabel
+                                    <label>{userLabel}<br></br></label>
                                 }
                                 {
                                     (this.props.admin) ?
 
-                                        <button value={d._id} key={d.hour + "-" + d.day} onClick={this.handleModal.bind(this)}>Modificar {d.hour + " - " + d.day}</button> : null
+                                        <button className="bg-blue-700 p-1" value={d._id} key={d.hour + "-" + d.day} onClick={this.handleModal.bind(this)}>Modificar</button> : null
                                 }
                             </td>
                             :
@@ -161,15 +161,15 @@ export default class App extends React.Component {
         let count = 0;
         return (
             <div>
-                {/* <h1>Bienvenido {this.props.name} {this.props.lastname}</h1> */}
-                <div style={{ display: this.state.displayModal }}><ModalCalendar id={this.state.id} closeModal={this.closeModal} arrayCalendar={this.arrayCalendar.bind(this)} /></div>
+                <h1>Bienvenido/a {this.props.name} {this.props.lastname}</h1>
+                <div className="modal--parent" style={{ display: this.state.displayModal }}><ModalCalendar id={this.state.id} closeModal={this.closeModal} arrayCalendar={this.arrayCalendar.bind(this)} /></div>
                 {
                     // (this.props.admin) ?
                     //     <h1>Soy pro</h1>
                     //     :
                     //     <h1>No soy pro</h1>
                 }
-                <table border="1">
+                <table  border="1" className="table--calendar bg-green-100 mx-52">
                     <thead>
                         <tr>
                             {

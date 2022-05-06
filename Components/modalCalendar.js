@@ -75,12 +75,13 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="modal-container" style={{width: '99%', height: innerHeight*2.2+"px"}}>
                 <div>
+                <div className="modal-header">
                     Asignar usuario o bloquear día <button onClick={this.props.closeModal}>X</button>
                 </div>
-                <form onSubmit={this.handleSubmit.bind(this)}>
-                    <div>
+                <form onSubmit={this.handleSubmit.bind(this)} className="modal-form">
+                    <div className="modal-body">
                         Asignar usuario
                         {
                             (!this.state.checked) ?
@@ -103,14 +104,15 @@ export default class App extends React.Component {
                             <input type="checkbox" onChange={this.handleCheckbox.bind(this)} checked={this.state.checked}/>
                         </div>
                     </div>
-                    <div>
+                    <div className="modal-footer">
                         {
                             (this.state.itemSelectedId == '1' && !this.state.checked) ?
                                 <input type="submit" value='Guardar' disabled /> :
-                                <input type="submit" value='Guardar' />
+                                <input type="submit" value='Guardar' style={{cursor: 'pointer'}}/>
                         }
                     </div>
                 </form>
+                </div>
             </div>
         )
     }

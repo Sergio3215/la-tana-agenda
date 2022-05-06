@@ -35,7 +35,7 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSumit.bind(this)}>
+            <form onSubmit={this.handleSumit.bind(this)} className="form--login">
                 <div>
                     <label>Cuenta de usuario</label>
                     <input type="text" onChange={this.handleInputName.bind(this)} />
@@ -45,7 +45,9 @@ export default class App extends React.Component {
                     <input type="password" onChange={this.handleInputPassword.bind(this)} />
                 </div>
                 <div><label>{this.state.error}</label></div>
-                <input type="submit" />
+                <input type="submit" value="Iniciar sesion" style={{
+                    cursor:'pointer'
+                }}/>
             </form>
         )
     }
