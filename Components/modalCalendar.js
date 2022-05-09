@@ -75,10 +75,11 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <div className="modal-container" style={{width: '99%', height: innerHeight*2.2+"px"}}>
+            <div className="modal-container" style={{width:  innerWidth - scrollX+"px", height: innerHeight - scrollY+"px"}}>
                 <div>
                 <div className="modal-header">
-                    Asignar usuario o bloquear día <button onClick={this.props.closeModal}>X</button>
+                    Asignar usuario o bloquear día 
+                    <button onClick={this.props.closeModal}>X</button>
                 </div>
                 <form onSubmit={this.handleSubmit.bind(this)} className="modal-form">
                     <div className="modal-body">

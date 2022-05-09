@@ -103,7 +103,10 @@ export default class App extends React.Component {
     }
 
     handleModal(e) {
-        console.log(e)
+        console.log(e);
+        document.querySelector('body').style.overflowY = "hidden"
+        document.querySelector('.modal-container').style.top = scrollY+"px"
+        document.querySelector('.modal-container').style.left = scrollX+"px"
         this.setState({
             id: e.target.value,
             displayModal: 'block'
@@ -111,6 +114,7 @@ export default class App extends React.Component {
     }
 
     closeModal() {
+        document.querySelector('body').style.overflowY = "scroll"
         this.setState({
             id: '',
             displayModal: 'none'
@@ -171,7 +175,7 @@ export default class App extends React.Component {
                 }
                 <table  border="1" className="table--calendar bg-green-100 mx-52">
                     <thead>
-                        <tr>
+                        <tr className='bg-blue-500'>
                             {
                                 this.state.arrDay.map(d => <td>{d}</td>)
                             }
