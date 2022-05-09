@@ -1,30 +1,92 @@
-.modal-container{
-    background-color: rgba(0,0,0,0.5);
+.modal-container {
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 100;
     margin: 0;
     padding: 0;
     position: absolute;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
 }
-.modal-container div{
+
+.modal-container div {
     background-color: white;
     width: 350px;
-    height:80px;
+    height: 80px;
     position: relative;
-    left:15%;
-    top:15%;
+    left: 15%;
+    top: 15%;
+    border-radius:10px;
 }
-.modal-container div form div,.modal-header{
+
+.modal-container div form div,
+.modal-header {
     background-color: white;
     width: 350px;
-    height:80px;
+    height: 80px;
     left: 0 !important;
 }
-.modal-container div div{
+
+.modal-container div div {
     width: 350px;
-    height:80px;
+    height: 80px;
 }
-.modal-container div div button{
+
+.modal-container div div button {
     position: absolute;
     right: 15px;
+    top: -6px;
+}
+
+.modal-container div div span {
+    position: absolute;
+    left: 10px;
+    top: -8px;
+    font-weight: bold;
+    font-size: larger;
+}
+
+.modal-form {
+    position: relative;
+    top: -25px;
+}
+.modal-form div * {
+    position: relative;
+    left: 10px !important;
+}
+.modal-body select{
+    margin-left: 12px;
+    border: 1px solid black;
+    border-radius:10px;
+    text-align: center;
+    cursor: pointer;
+}
+.modal-body label{
+    text-align: center;
+    cursor: text;
+}
+
+.modal-body input[type='checkbox']{
+    margin-left: 12px;
+    cursor: pointer;
+}
+
+.modal-footer input[type='submit']{
+    border: 1px solid black;
+    padding: 5px 5px;
+    border-radius:10px;
+    background-color:rgb(4, 69, 153);
+    color: rgb(255, 255, 255);
+    position: relative !important;
+    left: 120px !important;
+    bottom: -15px !important;
+}
+
+.modal-footer input[type='submit']:disabled{
+    border: 1px solid black;
+    padding: 5px 5px;
+    border-radius:10px;
+    background-color:rgb(78, 103, 136);
+    color: rgb(255, 255, 255);
+    position: relative !important;
+    left: 120px !important;
+    bottom: -15px !important;
 }

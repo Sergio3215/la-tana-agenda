@@ -30,7 +30,7 @@ export default class App extends React.Component {
                 let allow = false
                 doc.data.forEach((r) => {
                     console.log(r)
-                    if (r.name+" "+r.lastname == doc.lastuser) {
+                    if (r.name + " " + r.lastname == doc.lastuser) {
                         component.push(<option value={r._id} select='selected'>{r.name + " " + r.lastname}</option>);
                     }
                     else {
@@ -51,7 +51,7 @@ export default class App extends React.Component {
     async handleSubmit(e) {
         e.preventDefault();
         let userParams = ''
-        if(this.state.itemSelectedId != "1"){
+        if (this.state.itemSelectedId != "1") {
             userParams = `userid=${this.state.itemSelectedId}&`;
         }
         let strfetch = await fetch(`http://localhost:3000/api/calendarid?${userParams}allow=${!this.state.checked}&id=${this.props.id}`, { method: 'PUT' });
@@ -75,44 +75,44 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <div className="modal-container" style={{width:  innerWidth - scrollX+"px", height: innerHeight - scrollY+"px"}}>
+            <div className="modal-container" style={{ width: innerWidth - scrollX + "px", height: innerHeight - scrollY + "px" }}>
                 <div>
-                <div className="modal-header">
-                    Asignar usuario o bloquear día 
-                    <button onClick={this.props.closeModal}>X</button>
-                </div>
-                <form onSubmit={this.handleSubmit.bind(this)} className="modal-form">
-                    <div className="modal-body">
-                        Asignar usuario
-                        {
-                            (!this.state.checked) ?
-                                <select key={this.props.id} onChange={this.handleSelect.bind(this)}>
-                                    <option value='1'>Selecciona un usuario</option>
-                                    {
-                                        this.state.componentUsers
-                                    }
-                                </select> :
+                    <div className="modal-header">
+                        <span>Asignar usuario o bloquear día </span>
+                        <button onClick={this.props.closeModal}>X</button>
+                    </div>
+                    <form onSubmit={this.handleSubmit.bind(this)} className="modal-form">
+                        <div className="modal-body">
+                            <label>Asignar usuario</label>
+                            {
+                                (!this.state.checked) ?
+                                    <select key={this.props.id} onChange={this.handleSelect.bind(this)}>
+                                        <option value='1'>Selecciona un usuario</option>
+                                        {
+                                            this.state.componentUsers
+                                        }
+                                    </select> :
 
-                                <select key={this.props.id} disabled>
-                                    <option value='1'>Selecciona un usuario</option>
-                                    {
-                                        this.state.componentUsers
-                                    }
-                                </select>
-                        }
-                        <div>
-                            <label>Bloquear dia</label>
-                            <input type="checkbox" onChange={this.handleCheckbox.bind(this)} checked={this.state.checked}/>
+                                    <select key={this.props.id} disabled>
+                                        <option value='1'>Selecciona un usuario</option>
+                                        {
+                                            this.state.componentUsers
+                                        }
+                                    </select>
+                            }
+                            <div>
+                                <label>Bloquear dia</label>
+                                <input type="checkbox" onChange={this.handleCheckbox.bind(this)} checked={this.state.checked} />
+                            </div>
                         </div>
-                    </div>
-                    <div className="modal-footer">
-                        {
-                            (this.state.itemSelectedId == '1' && !this.state.checked) ?
-                                <input type="submit" value='Guardar' disabled /> :
-                                <input type="submit" value='Guardar' style={{cursor: 'pointer'}}/>
-                        }
-                    </div>
-                </form>
+                        <div className="modal-footer">
+                            {
+                                (this.state.itemSelectedId == '1' && !this.state.checked) ?
+                                    <input type="submit" value='Guardar' disabled /> :
+                                    <input type="submit" value='Guardar' style={{ cursor: 'pointer' }} />
+                            }
+                        </div>
+                    </form>
                 </div>
             </div>
         )
