@@ -54,7 +54,7 @@ export default class App extends React.Component {
         if (this.state.itemSelectedId != "1") {
             userParams = `userid=${this.state.itemSelectedId}&`;
         }
-        let strfetch = await fetch(`http://localhost:3000/api/calendarid?${userParams}allow=${!this.state.checked}&id=${this.props.id}`, { method: 'PUT' });
+        let strfetch = await fetch(`/api/calendarid?${userParams}allow=${!this.state.checked}&id=${this.props.id}`, { method: 'PUT' });
         let res = await strfetch.json();
 
         this.props.arrayCalendar(9, 23);
