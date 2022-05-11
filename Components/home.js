@@ -14,7 +14,8 @@ export default class App extends React.Component {
             id: '',
             displayModal: 'none',
             X:0,
-            Y:0
+            Y:0,
+            data:[]
         }
     }
 
@@ -104,13 +105,19 @@ export default class App extends React.Component {
 
     handleModal(e) {
         console.log(e);
-        document.querySelector('body').style.overflowY = "hidden"
-        document.querySelector('.modal-container').style.top = scrollY+"px"
-        document.querySelector('.modal-container').style.left = scrollX+"px"
-        this.setState({
-            id: e.target.value,
-            displayModal: 'block'
-        }, () => this.forceUpdate())
+        document.querySelector('body').style.overflowY = "hidden";
+        document.querySelector('.modal-container').style.top = scrollY+"px";
+        document.querySelector('.modal-container').style.left = scrollX+"px";
+
+        fetch('/api/allusers?id=' + e.target.value).then(res => res.json())
+            .then(doc => {
+                
+                this.setState({
+                    data: doc,
+                    displayModal: 'block',
+                    id: e.target.value
+                }, () => this.forceUpdate())
+            })
     }
 
     closeModal() {
@@ -166,7 +173,12 @@ export default class App extends React.Component {
         return (
             <div>
                 <h1>Bienvenido/a {this.props.name} {this.props.lastname}</h1>
-                <div className="modal--parent" style={{ display: this.state.displayModal }}><ModalCalendar id={this.state.id} closeModal={this.closeModal} arrayCalendar={this.arrayCalendar.bind(this)} /></div>
+                <div className="modal--parent" style={{ display: this.state.displayModal }}><ModalCalendar 
+                id={this.state.id} 
+                closeModal={this.closeModal} 
+                arrayCalendar={this.arrayCalendar.bind(this)}
+                data= {this.state.data} 
+                /></div>
                 {
                     // (this.props.admin) ?
                     //     <h1>Soy pro</h1>

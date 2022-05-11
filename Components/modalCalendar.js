@@ -13,7 +13,7 @@ export default class App extends React.Component {
     }
 
     componentDidUpdate(PrevProps) {
-        if (PrevProps.id != this.props.id) {
+        if (PrevProps.data != this.props.data) {
             this.allUser();
         }
     }
@@ -23,15 +23,17 @@ export default class App extends React.Component {
     }
 
     allUser() {
-        fetch('/api/allusers?id=' + this.props.id).then(res => res.json())
-            .then(doc => {
-                console.log(doc)
+        let idSelected= '1';
+        console.log(this.props.data)
                 let component = [];
                 let allow = false
+                    let doc = this.props.data;
+                if(doc.data != undefined) {
                 doc.data.forEach((r) => {
-                    console.log(r)
-                    if (r.name + " " + r.lastname == doc.lastuser) {
-                        component.push(<option value={r._id} select='selected'>{r.name + " " + r.lastname}</option>);
+                    if (r.name + " " + r.lastname == this.props.data.lastuser && doc.allow) {
+                    console.log(this.props.data.lastuser)
+                    idSelected=r._id;
+                        component.push(<option value={r._id} selected>{this.props.data.lastuser}</option>);
                     }
                     else {
                         component.push(<option value={r._id}>{r.name + " " + r.lastname}</option>);
@@ -41,11 +43,10 @@ export default class App extends React.Component {
 
                 this.setState({
                     componentUsers: component,
-                    itemSelectedId: '1',
+                    itemSelectedId: idSelected,
                     checked: !allow
                 }, () => this.forceUpdate())
-            })
-
+                }
     }
 
     async handleSubmit(e) {
@@ -73,13 +74,18 @@ export default class App extends React.Component {
         }, () => this.forceUpdate());
     }
 
+    closeModal() {
+        this.props.closeModal();
+        this.setState({componentUsers:[]})
+    }
+
     render() {
         return (
             <div className="modal-container" style={{ width: innerWidth - scrollX + "px", height: innerHeight - scrollY + "px" }}>
                 <div>
                     <div className="modal-header">
                         <span>Asignar usuario o bloquear día </span>
-                        <button onClick={this.props.closeModal}>X</button>
+                        <button onClick={this.closeModal.bind(this)}>X</button>
                     </div>
                     <form onSubmit={this.handleSubmit.bind(this)} className="modal-form">
                         <div className="modal-body">
