@@ -22,7 +22,7 @@ handler.post(async (req, res) => {
             index: index,
             hour: hour,
             user: user,
-            allow: allow
+            allow: false
         }
     );
     // console.log(doc);
